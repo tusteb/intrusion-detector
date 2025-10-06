@@ -1,0 +1,17 @@
+﻿fastapi
+uvicorn
+xgboost
+pandas
+scikit-learn
+joblib
+numpy
+matplotlib
+seaborn
+shap
+optuna
+streamlit
+requests
+pydantic
+pytest
+python-multipart
+httpx

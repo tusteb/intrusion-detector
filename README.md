@@ -43,7 +43,7 @@ streamlit run streamlit_app.py
 ```
 ## Недостающие данные
 
-Из-за ограничений GitHub файлы больше 100 MB не хранятся в репозитории. Поэтому, данные для обучения модели можно скачать по ссылке:<br> (https://drive.google.com/drive/folders/1uv-Wx3qfW4vqgSC404eAXeehfbnKqIGQ?usp=sharing)
+Из-за ограничений GitHub файлы больше 100 MB не хранятся в репозитории, поэтому данные для обучения модели можно скачать по ссылке:<br> (https://drive.google.com/drive/folders/1uv-Wx3qfW4vqgSC404eAXeehfbnKqIGQ?usp=sharing)
 
 После скачивания разместите файл в следующую папку проекта:
 * model_training/CIC-IDS2017.csv

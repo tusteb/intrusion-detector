@@ -1,0 +1,4 @@
+Destination Port,Init_Win_bytes_forward,Init_Win_bytes_backward,Bwd Packets/s,min_seg_size_forward,Fwd IAT Std,Flow IAT Min,Bwd Packet Length Min,Fwd Packets/s
+443,8192,8192,1500,40,5000,1000,60,2000
+80,4096,2048,1200,32,3000,800,52,1800
+53,1024,1024,800,20,2500,600,48,1600

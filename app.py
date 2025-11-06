@@ -16,7 +16,7 @@ with open(EXAMPLE_CSV_PATH, 'rb') as file:
                        mime='text/csv',
                        help='Скачайте пример файла с нужными признаками')
 
-uploaded_file = st.file_uploader('📁 Загрузите CSV-файл', type=['csv'])
+uploaded_file = st.file_uploader('Загрузите CSV-файл', type=['csv'])
 
 if uploaded_file:
     col1, col2, col3 = st.columns([1, 2, 1])
@@ -91,8 +91,7 @@ features = {
     "Fwd_Packets_s": st.number_input('Fwd Packets/s', min_value=0.0, max_value=1_000_000.0, value=2000.0,
                                      help='Скорость пакетов в прямом направлении (пакеты в секунду)'),
     "Fwd_IAT_Min": st.number_input('Fwd IAT Min', min_value=0.0, max_value=1_000_000.0, value=1000.0,
-                                   help='Минимальный интервал между пакетами в прямом направлении')
-}
+                                   help='Минимальный интервал между пакетами в прямом направлении')}
 
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
@@ -122,10 +121,8 @@ if predict_clicked:
                     st.success('🟢 Высокая уверенность')
 
             with col_right:
-                probs_df = pd.DataFrame({
-                    'Класс': list(result["probabilities"].keys()),
-                    'Вероятность': list(result["probabilities"].values())
-                })
+                probs_df = pd.DataFrame({'Класс': list(result["probabilities"].keys()),
+                                         'Вероятность': list(result["probabilities"].values())})
                 st.bar_chart(probs_df.set_index('Класс'))
     else:
         try:

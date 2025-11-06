@@ -6,6 +6,7 @@ import joblib
 import pandas as pd
 import io
 
+# Загрузка пайплайна (модель, список признаков, энкодер)
 bundle = joblib.load("model/xgb_pipeline_bundle.pkl")
 model = bundle["model"]
 selected_features = bundle["selected_features"]
@@ -14,6 +15,9 @@ label_encoder = bundle["label_encoder"]
 app = FastAPI()
 
 class InputData(BaseModel):
+    '''
+    Класс для описания входных данных
+    '''
     Destination_Port: StrictInt
     Init_Win_bytes_forward: StrictInt
     Init_Win_bytes_backward: StrictInt
@@ -25,9 +29,21 @@ class InputData(BaseModel):
     Fwd_Packets_s: StrictFloat
     Fwd_IAT_Min: StrictFloat
 
-
+# Эндпоинт /predict_csv
 @app.post("/predict_csv")
 async def predict_csv(file: UploadFile = File(...)):
+    '''
+    Функция для предсказания модели на основе данных из CSV‑файла:
+
+    1. Принимаем CSV‑файл
+    2. Проверяем расширение файла
+    3. Проверяем MIME‑тип
+    4. Проверяем, что файл не пустой
+    5. Проверяем, что все нужные признаки присутствуют
+    6. Приводим данные к типу float
+
+    Возвращаем числовые метки, строковые классы, вероятности
+    '''
     if not file.filename.lower().endswith(".csv"):
         return JSONResponse(
             status_code=400,
@@ -75,12 +91,20 @@ async def predict_csv(file: UploadFile = File(...)):
     except Exception as e:
         return JSONResponse(status_code=500, content={"error": f"Ошибка сервера: {str(e)}"})
 
-
+# Эндпоинт /predict
 @app.post('/predict')
 def predict(data: InputData):
+    '''
+    Функция для предсказания модели на основе вводимых данных:
+
+    1. Принимаем JSON с признаками одного объекта
+    2. Преобразуем в DataFrame
+    3. Переименовываем поля, чтобы они совпадали с названиями признаков в модели
+
+    Возвращаем числовые метки, строковые классы, вероятности
+    '''
     try:
         df = pd.DataFrame([data.model_dump()])
-
         df = df.rename(columns={"Destination_Port": "Destination Port",
                                 "Bwd_Packets_s": "Bwd Packets/s",
                                 "Fwd_IAT_Std": "Fwd IAT Std",

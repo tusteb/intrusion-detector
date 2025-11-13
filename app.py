@@ -3,14 +3,15 @@ import pandas as pd
 import requests
 from config import API_URL, EXAMPLE_CSV_PATH, CONFIDENCE_THRESHOLDS
 
+# Настройки страницы
 st.set_page_config(page_title='Анализ сетевого трафика', layout='centered')
 st.title('🚦 Классификация сетевого трафика')
 st.markdown('Загрузите CSV с необходимыми признаками или введите параметры сетевого потока вручную, чтобы получить предсказание модели и уровень её уверенности.')
 
-# Загрузка CSV
+# Загрузка CSV (с примером данных)
 st.subheader('📂 Загрузка потока из файла')
 with open(EXAMPLE_CSV_PATH, 'rb') as file:
-    st.download_button(label='📥 Скачать шаблон CSV',
+    st.download_button(label='Скачать шаблон CSV',
                        data=file,
                        file_name='example.csv',
                        mime='text/csv',
@@ -21,7 +22,7 @@ uploaded_file = st.file_uploader('Загрузите CSV-файл', type=['csv']
 if uploaded_file:
     col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
-        predict_clicked = st.button('🔮 **Предсказать по CSV**', key='predict_csv', use_container_width=True)
+        predict_clicked = st.button('**Предсказать по CSV**', key='predict_csv', use_container_width=True)
 
     if predict_clicked:
         with st.spinner('Модель думает...'):
@@ -36,14 +37,14 @@ if uploaded_file:
                 st.error(f"❌ Ошибка: {result['error']}")
             else:
                 st.toast('Предсказание завершено!')
-                st.subheader('📌 Результаты предсказания по CSV')
+                st.subheader('Результаты предсказания по CSV')
 
                 for i, row in enumerate(result["results"]):
                     col_left, col_right = st.columns([2, 1])
                     with col_left:
                         st.markdown(f'**Строка {i+1}:**')
-                        st.write(f'🔹 Класс: `{row["prediction"]}`')
-                        st.write(f'📈 Уверенность: **{row["confidence"]:.2f}**')
+                        st.write(f'Класс: `{row["prediction"]}`')
+                        st.write(f'Уверенность: **{row["confidence"]:.2f}**')
 
                         if row["confidence"] < CONFIDENCE_THRESHOLDS["low"]:
                             st.warning('⚠️ Низкая уверенность — рекомендуется ручная проверка')
@@ -95,10 +96,10 @@ features = {
 
 col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
-    predict_clicked = st.button('🔮 **Предсказать по введенным данным**', key='predict_manual', use_container_width=True)
+    predict_clicked = st.button('**Предсказать по введенным данным**', key='predict_manual', use_container_width=True)
 
 if predict_clicked:
-    with st.spinner('🔄 Модель думает...'):
+    with st.spinner('Модель думает...'):
         response = requests.post(f"{API_URL}/predict", json=features)
 
     if response.status_code == 200:
@@ -106,12 +107,12 @@ if predict_clicked:
         if "error" in result:
             st.error(f"❌ Ошибка: {result['error']}")
         else:
-            st.toast('✅ Предсказание завершено!')
+            st.toast('Предсказание завершено!')
             col_left, col_right = st.columns([2, 1])
             with col_left:
-                st.subheader('📌 Результаты предсказания по введенным данным')
-                st.write(f'🔹 Класс: **{result["prediction"]}**')
-                st.write(f'📈 Уверенность модели: **{result["confidence"]:.2f}**')
+                st.subheader('Результаты предсказания по введенным данным')
+                st.write(f'Класс: **{result["prediction"]}**')
+                st.write(f'Уверенность модели: **{result["confidence"]:.2f}**')
 
                 if result["confidence"] < CONFIDENCE_THRESHOLDS["low"]:
                     st.warning('⚠️ Низкая уверенность — рекомендуется ручная проверка')

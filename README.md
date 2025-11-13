@@ -22,6 +22,8 @@
 * Docker
 * GitHub Actions
 
+![Архитектура](screenshots/class_diagram.png)
+
 ## Обучение модели
 Процесс обучения модели и данные, на которых обучалась модель, представлены в **/model_training**
 
